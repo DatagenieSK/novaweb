@@ -139,62 +139,244 @@
 
     <section id="services" class="services relative-z">
         <div class="services-header animate-on-scroll">
+            <div class="services-telemetry-badge">
+                <span class="pulse-indicator"></span> DEPLOYMENT SPECIFICATIONS v2.4
+            </div>
             <h2 class="services-main-title text-orange">Core Development Services</h2>
+            <p class="section-subtitle">Full-lifecycle software engineering from frontend architecture to production cloud deployment.</p>
         </div>
 
-        <div class="bento-grid">
-            <div class="service-card bento-featured animate-on-scroll">
-                <div class="glow-orb"></div>
-                <div class="featured-content">
-                    <div class="huge-icon">💻</div>
-                    <h3>Web Application Development</h3>
-                    <p>Bespoke web applications, SaaS platforms, client portals, and progressive web apps engineered
-                        with modern frameworks, lightning-fast SSR, and scalable backends.</p>
+        <div class="services-master-container">
+            <!-- TIER 1: FLAGSHIP PILLARS (Web & Mobile) -->
+            <div class="services-flagship-grid">
+                <!-- 01. Web Application Development -->
+                <div class="service-card flagship-card animate-on-scroll">
+                    <div class="service-card-header">
+                        <div class="service-icon-box">💻</div>
+                        <div class="service-header-meta">
+                            <span class="service-code-tag">// FLAGSHIP_01</span>
+                            <span class="service-subtag">HIGH-CONCURRENCY WEB</span>
+                        </div>
+                    </div>
+                    
+                    <div class="service-body">
+                        <h3>Web Application Development</h3>
+                        <p>Bespoke web applications, SaaS platforms, client portals, and progressive web apps engineered with modern frameworks, lightning-fast SSR, and scalable backends.</p>
+                    </div>
+
+                    <!-- Unique Micro-Widget: Live Build Terminal -->
+                    <div class="service-micro-widget terminal-widget">
+                        <div class="widget-topbar">
+                            <div class="widget-traffic-lights">
+                                <span class="light red"></span>
+                                <span class="light yellow"></span>
+                                <span class="light green"></span>
+                            </div>
+                            <span class="widget-title">~/web/production_build.log</span>
+                        </div>
+                        <div class="widget-content font-mono">
+                            <p class="code-txt"><span class="text-orange">></span> next build --profile --standalone</p>
+                            <p class="code-txt text-muted">✓ Compiled 148 dynamic routes in 0.38s</p>
+                            <p class="code-txt code-highlight">⚡ Core Web Vitals: 100 Perf • 99ms Edge TTFB</p>
+                        </div>
+                    </div>
+
+                    <div class="service-stack">
+                        <span>Next.js 14</span>
+                        <span>React</span>
+                        <span>TypeScript</span>
+                        <span>Node.js</span>
+                        <span>PostgreSQL</span>
+                    </div>
+                </div>
+
+                <!-- 02. Mobile App Development -->
+                <div class="service-card flagship-card animate-on-scroll" style="transition-delay: 0.1s;">
+                    <div class="service-card-header">
+                        <div class="service-icon-box">📱</div>
+                        <div class="service-header-meta">
+                            <span class="service-code-tag">// FLAGSHIP_02</span>
+                            <span class="service-subtag">NATIVE & FLUTTER</span>
+                        </div>
+                    </div>
+                    
+                    <div class="service-body">
+                        <h3>Mobile App Development</h3>
+                        <p>Production-ready iOS and Android mobile apps designed for optimal touch ergonomics, offline storage, biometric security, and push notifications.</p>
+                    </div>
+
+                    <!-- Unique Micro-Widget: Dual Platform Specs -->
+                    <div class="service-micro-widget mobile-widget">
+                        <div class="mobile-platform-selector">
+                            <span class="platform-chip active"><span class="glyph"></span> iOS / Swift</span>
+                            <span class="platform-chip active"><span class="glyph">🤖</span> Android / Kotlin</span>
+                            <span class="platform-chip active"><span class="glyph">⚡</span> Flutter Engine</span>
+                        </div>
+                        <div class="mobile-benchmark-list font-mono">
+                            <div class="benchmark-item">
+                                <span class="bench-label">Frame Budget</span>
+                                <span class="bench-value">120 FPS V-Sync</span>
+                            </div>
+                            <div class="benchmark-item">
+                                <span class="bench-label">Offline Store</span>
+                                <span class="bench-value">Encrypted SQLite</span>
+                            </div>
+                            <div class="benchmark-item">
+                                <span class="bench-label">Auth Layer</span>
+                                <span class="bench-value">Biometric Keychain</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="service-stack">
+                        <span>Flutter</span>
+                        <span>React Native</span>
+                        <span>Swift</span>
+                        <span>Kotlin</span>
+                        <span>Firebase</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="service-card bento-standard animate-on-scroll" style="transition-delay: 0.1s;">
-                <div class="card-icon">📱</div>
-                <div class="card-content">
-                    <h3>Mobile App Development</h3>
-                    <p>Production-ready iOS and Android mobile apps designed for optimal touch ergonomics, offline
-                        storage, biometric security, and push notifications.</p>
-                </div>
-            </div>
+            <!-- TIER 2: SPECIALIZED CAPABILITIES (4 Columns) -->
+            <div class="services-engines-grid">
+                <!-- 03. API & Cloud Infrastructure -->
+                <div class="service-card engine-card animate-on-scroll" style="transition-delay: 0.2s;">
+                    <div class="service-card-header">
+                        <div class="service-icon-box small">⚡</div>
+                        <span class="service-code-tag">// CLOUD_03</span>
+                    </div>
+                    
+                    <div class="service-body">
+                        <h3>API & Cloud Infra</h3>
+                        <p>High-throughput REST & GraphQL APIs, microservices, and automated cloud deployments.</p>
+                    </div>
 
-            <div class="service-card bento-tall animate-on-scroll" style="transition-delay: 0.2s;">
-                <div class="card-icon">⚡</div>
-                <div class="card-content">
-                    <h3>API & Cloud Infrastructure</h3>
-                    <p>High-throughput REST and GraphQL APIs, microservice architectures, serverless functions, database
-                        sharding, and robust cloud DevOps integrations.</p>
-                </div>
-            </div>
+                    <!-- Micro-Widget: Microservice Flow Diagram -->
+                    <div class="service-micro-widget pipeline-widget font-mono">
+                        <div class="pipeline-flow">
+                            <div class="flow-step">API GW</div>
+                            <span class="flow-arrow">➔</span>
+                            <div class="flow-step">K8s Pods</div>
+                            <span class="flow-arrow">➔</span>
+                            <div class="flow-step">Postgres</div>
+                        </div>
+                        <div class="pipeline-telemetry">
+                            <span>p99 Latency: <strong>32ms</strong></span>
+                            <span>Auto-Scale: <strong>On</strong></span>
+                        </div>
+                    </div>
 
-            <div class="service-card bento-wide animate-on-scroll" style="transition-delay: 0.3s;">
-                <div class="card-icon">🤖</div>
-                <div class="card-content">
-                    <h3>AI & Intelligent Integrations</h3>
-                    <p>Supercharge your web and mobile apps with LLM agents, automated conversational bots, semantic
-                        search, and predictive data pipelines.</p>
+                    <div class="service-stack">
+                        <span>GraphQL</span>
+                        <span>Docker</span>
+                        <span>AWS</span>
+                        <span>K8s</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="service-card bento-standard animate-on-scroll" style="transition-delay: 0.4s;">
-                <div class="card-icon">🎨</div>
-                <div class="card-content">
-                    <h3>UI/UX Product Design</h3>
-                    <p>Interactive wireframes, comprehensive Figma design systems, pixel-perfect user journeys, and
-                        conversion-driven design aesthetics.</p>
+                <!-- 04. AI & Intelligent Integrations -->
+                <div class="service-card engine-card animate-on-scroll" style="transition-delay: 0.3s;">
+                    <div class="service-card-header">
+                        <div class="service-icon-box small">🤖</div>
+                        <span class="service-code-tag">// AI_04</span>
+                    </div>
+                    
+                    <div class="service-body">
+                        <h3>AI & Integrations</h3>
+                        <p>Custom LLM agents, vector semantic search, and autonomous workflow automation.</p>
+                    </div>
+
+                    <!-- Micro-Widget: AI Agent Stream -->
+                    <div class="service-micro-widget ai-widget font-mono">
+                        <div class="ai-status-row">
+                            <span class="status-indicator-dot"></span>
+                            <span class="ai-mode-text">Autonomous Agent Active</span>
+                        </div>
+                        <div class="ai-stream-box">
+                            <p class="ai-log">> RAG Query: 14ms (cosine 0.96)</p>
+                            <p class="ai-log text-orange">> Tool Exec: Payload Dispatched_</p>
+                        </div>
+                    </div>
+
+                    <div class="service-stack">
+                        <span>OpenAI</span>
+                        <span>LangChain</span>
+                        <span>Vector DBs</span>
+                        <span>Python</span>
+                    </div>
                 </div>
-            </div>
 
-            <div class="service-card bento-standard animate-on-scroll" style="transition-delay: 0.5s;">
-                <div class="card-icon">🛡️</div>
-                <div class="card-content">
-                    <h3>DevOps, Audit & Maintenance</h3>
-                    <p>Rigorous security code reviews, automated CI/CD pipelines, containerization, performance tuning,
-                        and 24/7 SLA infrastructure maintenance.</p>
+                <!-- 05. UI/UX Product Design -->
+                <div class="service-card engine-card animate-on-scroll" style="transition-delay: 0.4s;">
+                    <div class="service-card-header">
+                        <div class="service-icon-box small">🎨</div>
+                        <span class="service-code-tag">// UX_05</span>
+                    </div>
+                    
+                    <div class="service-body">
+                        <h3>UI/UX Product Design</h3>
+                        <p>Design systems, interactive prototypes, user journeys, and conversion interfaces.</p>
+                    </div>
+
+                    <!-- Micro-Widget: Design System Tokens -->
+                    <div class="service-micro-widget design-widget font-mono">
+                        <div class="design-palette-preview">
+                            <span class="palette-swatch" style="background: #7D0433;" title="Nova Burgundy"></span>
+                            <span class="palette-swatch" style="background: #E85D88;" title="Rose Light"></span>
+                            <span class="palette-swatch" style="background: #111111;" title="Dark Border"></span>
+                            <span class="palette-swatch" style="background: #FCF8F9;" title="Cream Canvas"></span>
+                        </div>
+                        <div class="design-tokens-text">
+                            <span>8pt Baseline</span> • <span>DM Serif</span> • <span>Inter</span>
+                        </div>
+                    </div>
+
+                    <div class="service-stack">
+                        <span>Figma</span>
+                        <span>Tokens</span>
+                        <span>Prototypes</span>
+                        <span>Storybook</span>
+                    </div>
+                </div>
+
+                <!-- 06. DevOps, Security & Maintenance -->
+                <div class="service-card engine-card animate-on-scroll" style="transition-delay: 0.5s;">
+                    <div class="service-card-header">
+                        <div class="service-icon-box small">🛡️</div>
+                        <span class="service-code-tag">// SEC_06</span>
+                    </div>
+                    
+                    <div class="service-body">
+                        <h3>DevOps & Security</h3>
+                        <p>Automated zero-downtime CI/CD, vulnerability audits, and 24/7 SLA infrastructure.</p>
+                    </div>
+
+                    <!-- Micro-Widget: Realtime Uptime Telemetry -->
+                    <div class="service-micro-widget uptime-widget font-mono">
+                        <div class="uptime-bar-graph">
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                            <span class="uptime-tick active"></span>
+                        </div>
+                        <div class="uptime-stats-row">
+                            <span class="uptime-val text-orange">99.98% SLA</span>
+                            <span class="cve-val">0 Vulns</span>
+                        </div>
+                    </div>
+
+                    <div class="service-stack">
+                        <span>CI/CD</span>
+                        <span>Security Audit</span>
+                        <span>Linux</span>
+                        <span>24/7 SLA</span>
+                    </div>
                 </div>
             </div>
         </div>
