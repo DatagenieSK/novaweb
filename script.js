@@ -3,10 +3,12 @@ const loader = document.getElementById('a4-loader');
 
 // We use window.addEventListener('load') to ensure all images and assets are fully loaded
 window.addEventListener('load', () => {
-    // Enforce a minimum display time of 2.4 seconds so the boot animation plays out fully
+    // Enforce a minimum display time of 2.2 seconds so the boot animation plays out fully
     setTimeout(() => {
-        loader.classList.add('hidden');
-    }, 2400); 
+        if (loader) {
+            loader.classList.add('hidden');
+        }
+    }, 2200); 
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -81,24 +83,28 @@ document.addEventListener('DOMContentLoaded', () => {
             };
 
             // Fetch existing submissions or create an empty array
-            let submissions = JSON.parse(localStorage.getItem('a4Submissions')) || [];
+            let submissions = JSON.parse(localStorage.getItem('novaSubmissions')) || [];
             submissions.push(formData);
             
-            // Save back to localStorage
-            localStorage.setItem('a4Submissions', JSON.stringify(submissions));
+            // Save to localStorage
+            localStorage.setItem('novaSubmissions', JSON.stringify(submissions));
 
             // Trigger Animation Toast
-            successToast.classList.add('show');
+            if (successToast) {
+                successToast.classList.add('show');
+            }
             contactForm.reset();
 
             // Hide Toast after 3.5 seconds
             setTimeout(() => {
-                successToast.classList.remove('show');
+                if (successToast) {
+                    successToast.classList.remove('show');
+                }
             }, 3500);
         });
     }
 
-    // 5. NEW: Hero Terminal Typing Animation
+    // 5. Hero Terminal Typing Animation
     const heroTerminal = document.querySelector('.hero-terminal .terminal-body');
     if (heroTerminal) {
         const lines = heroTerminal.querySelectorAll('.code-line');
@@ -112,9 +118,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     line.style.display = 'block';
                 }, delay);
-                delay += 450; // 450ms wait between each line popping up
+                delay += 350; // 350ms wait between each line popping up
             });
-        }, 2600); // 2.6 seconds delay matches the loader finishing
+        }, 2400); // matches the loader finishing
     }
 
 });

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A4ANDOX | Admin Panel</title>
+    <title>NovaOps | Admin Panel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,7 @@
 <body>
 
     <header class="admin-header">
-        <div class="logo">A4ANDOX <span class="text-orange">Admin</span></div>
+        <div class="logo">NOVA<span class="text-orange">OPS</span> <span style="font-weight: 400; font-size: 1.1rem;">| Admin Panel</span></div>
         <a href="index.html" class="btn-secondary" style="font-size: 0.9rem; font-weight: bold;">← Back to Site</a>
     </header>
 
@@ -50,7 +50,7 @@
             </div>
             
             <div id="submissionsContainer" class="submissions-grid">
-                </div>
+            </div>
         </div>
     </main>
 
@@ -80,11 +80,13 @@
         });
 
         function loadSubmissions() {
-            const data = JSON.parse(localStorage.getItem('a4Submissions')) || [];
+            const novaData = JSON.parse(localStorage.getItem('novaSubmissions')) || [];
+            const legacyData = JSON.parse(localStorage.getItem('a4Submissions')) || [];
+            const data = [...novaData, ...legacyData];
             container.innerHTML = ''; // Clear current display
 
             if (data.length === 0) {
-                container.innerHTML = '<p style="text-align: center; font-size: 1.2rem; margin-top: 2rem;">No submissions yet. Test the form on the homepage!</p>';
+                container.innerHTML = '<p style="text-align: center; font-size: 1.2rem; margin-top: 2rem;">No project inquiries yet. Test the transmission form on the homepage!</p>';
                 return;
             }
 
@@ -109,6 +111,7 @@
 
         clearBtn.addEventListener('click', () => {
             if(confirm('Are you absolutely sure you want to delete all form submissions? This cannot be undone.')) {
+                localStorage.removeItem('novaSubmissions');
                 localStorage.removeItem('a4Submissions');
                 loadSubmissions(); // Reload the empty state
             }
