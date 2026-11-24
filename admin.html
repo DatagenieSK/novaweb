@@ -1,37 +1,120 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaOps | Admin Panel</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         /* Admin specific layout styles overlaying style.css */
-        body { display: flex; flex-direction: column; min-height: 100vh; }
-        .admin-header { padding: 1.5rem 5%; border-bottom: 3px solid var(--border-dark); display: flex; justify-content: space-between; align-items: center; background-color: var(--bg-cream); }
-        .admin-main { flex: 1; padding: 4rem 5%; display: flex; flex-direction: column; align-items: center; background-image: radial-gradient(#ccc 1px, transparent 1px); background-size: 20px 20px; }
-        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .admin-header {
+            padding: 1.5rem 5%;
+            border-bottom: 3px solid var(--border-dark);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--bg-cream);
+        }
+
+        .admin-main {
+            flex: 1;
+            padding: 4rem 5%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-image: radial-gradient(#ccc 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+
         /* Login Box */
-        .login-box { background: #fff; border: 3px solid var(--border-dark); box-shadow: 8px 8px 0px 0px var(--border-dark); padding: 3rem; width: 100%; max-width: 400px; text-align: center; }
-        .login-box input { width: 100%; padding: 1rem; margin: 1.5rem 0; border: 2px solid var(--border-dark); font-family: var(--font-body); font-size: 1rem; outline: none; }
-        .login-box input:focus { box-shadow: 4px 4px 0px 0px var(--accent-orange); }
-        .error-msg { color: #E86343; font-size: 0.95rem; font-weight: bold; margin-top: 1rem; display: none; }
-        
+        .login-box {
+            background: #fff;
+            border: 3px solid var(--border-dark);
+            box-shadow: 8px 8px 0px 0px var(--border-dark);
+            padding: 3rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 1rem;
+            margin: 1.5rem 0;
+            border: 2px solid var(--border-dark);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .login-box input:focus {
+            box-shadow: 4px 4px 0px 0px var(--accent-orange);
+        }
+
+        .error-msg {
+            color: #E86343;
+            font-size: 0.95rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            display: none;
+        }
+
         /* Dashboard */
-        .dashboard { width: 100%; max-width: 900px; display: none; }
-        .submissions-grid { display: grid; gap: 1.5rem; margin-top: 2rem; }
-        .sub-card { background: #fff; border: 3px solid var(--border-dark); padding: 2rem; box-shadow: 6px 6px 0px 0px var(--border-dark); }
-        .sub-header { display: flex; justify-content: space-between; border-bottom: 2px dashed #ccc; padding-bottom: 0.5rem; margin-bottom: 1rem; font-size: 0.9rem; color: #555; }
-        .sub-card h4 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--accent-orange); font-family: var(--font-heading); }
+        .dashboard {
+            width: 100%;
+            max-width: 900px;
+            display: none;
+        }
+
+        .submissions-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .sub-card {
+            background: #fff;
+            border: 3px solid var(--border-dark);
+            padding: 2rem;
+            box-shadow: 6px 6px 0px 0px var(--border-dark);
+        }
+
+        .sub-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 2px dashed #ccc;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .sub-card h4 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-orange);
+            font-family: var(--font-heading);
+        }
     </style>
 </head>
+
 <body>
 
     <header class="admin-header">
-        <div class="logo">NOVA<span class="text-orange">OPS</span> <span style="font-weight: 400; font-size: 1.1rem;">| Admin Panel</span></div>
+        <div class="logo">NOVA<span class="text-orange">OPS</span> <span style="font-weight: 400; font-size: 1.1rem;">|
+                Admin Panel</span></div>
         <a href="index.html" class="btn-secondary" style="font-size: 0.9rem; font-weight: bold;">← Back to Site</a>
     </header>
 
@@ -44,11 +127,14 @@
         </div>
 
         <div id="dashboardView" class="dashboard">
-            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <h2 style="font-family: var(--font-heading); font-size: 2.5rem;">Client Submissions</h2>
-                <button id="clearDataBtn" class="btn-secondary" style="color: red; border: 2px solid red; padding: 0.5rem 1rem; background-color: #fff;">Clear All Data</button>
+                <button id="clearDataBtn" class="btn-secondary"
+                    style="color: red; border: 2px solid red; padding: 0.5rem 1rem; background-color: #fff;">Clear All
+                    Data</button>
             </div>
-            
+
             <div id="submissionsContainer" class="submissions-grid">
             </div>
         </div>
@@ -65,7 +151,7 @@
         const clearBtn = document.getElementById('clearDataBtn');
 
         // Allow pressing "Enter" to login
-        passInput.addEventListener('keypress', function(e) {
+        passInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') loginBtn.click();
         });
 
@@ -110,7 +196,7 @@
         }
 
         clearBtn.addEventListener('click', () => {
-            if(confirm('Are you absolutely sure you want to delete all form submissions? This cannot be undone.')) {
+            if (confirm('Are you absolutely sure you want to delete all form submissions? This cannot be undone.')) {
                 localStorage.removeItem('novaSubmissions');
                 localStorage.removeItem('a4Submissions');
                 loadSubmissions(); // Reload the empty state
@@ -118,4 +204,5 @@
         });
     </script>
 </body>
+
 </html>

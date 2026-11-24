@@ -8,11 +8,11 @@ window.addEventListener('load', () => {
         if (loader) {
             loader.classList.add('hidden');
         }
-    }, 2200); 
+    }, 2200);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    
+
     // 1. Custom Cursor tracking (Desktop)
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
-            
+
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 // Account for the sticky header offset
@@ -85,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fetch existing submissions or create an empty array
             let submissions = JSON.parse(localStorage.getItem('novaSubmissions')) || [];
             submissions.push(formData);
-            
+
             // Save to localStorage
             localStorage.setItem('novaSubmissions', JSON.stringify(submissions));
 
@@ -109,7 +109,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (heroTerminal) {
         const lines = heroTerminal.querySelectorAll('.code-line');
         // Hide all lines initially
-        lines.forEach(line => line.style.display = 'none'); 
+        lines.forEach(line => line.style.display = 'none');
 
         // Wait for the main boot loader to finish before starting the terminal typing
         setTimeout(() => {
