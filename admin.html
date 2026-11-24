@@ -15,6 +15,19 @@
         rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
+        /* Restore normal visible cursors for admin panel */
+        *, *::before, *::after {
+            cursor: auto !important;
+        }
+
+        button, a, .btn-primary, .btn-secondary, input[type="submit"] {
+            cursor: pointer !important;
+        }
+
+        input, textarea {
+            cursor: text !important;
+        }
+
         /* Admin specific layout styles overlaying style.css */
         body {
             display: flex;
