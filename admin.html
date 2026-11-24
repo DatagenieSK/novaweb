@@ -5,6 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NovaOps | Admin Panel</title>
+    <meta name="theme-color" content="#7D0433">
+    <link rel="icon" type="image/png" href="assets/favicon.png">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -64,7 +67,7 @@
         }
 
         .error-msg {
-            color: #E86343;
+            color: var(--accent-orange);
             font-size: 0.95rem;
             font-weight: bold;
             margin-top: 1rem;
@@ -113,8 +116,12 @@
 <body>
 
     <header class="admin-header">
-        <div class="logo">NOVA<span class="text-orange">OPS</span> <span style="font-weight: 400; font-size: 1.1rem;">|
-                Admin Panel</span></div>
+        <div class="logo">
+            <a href="index.html" class="logo-link">
+                <img src="assets/logo.png" alt="NovaOps Logo" class="nav-logo-img">
+            </a>
+            <span style="font-weight: 400; font-size: 1.1rem;">| Admin Panel</span>
+        </div>
         <a href="index.html" class="btn-secondary" style="font-size: 0.9rem; font-weight: bold;">← Back to Site</a>
     </header>
 

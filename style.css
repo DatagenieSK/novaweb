@@ -1,8 +1,9 @@
 /* Base Variables & Reset */
 :root {
-    --bg-cream: #FAF6EE;
+    --bg-cream: #FCF8F9;
     --text-black: #1A1A1A;
-    --accent-orange: #E86343;
+    --accent-orange: #7D0433;
+    --accent-light: #E85D88;
     --border-dark: #111111;
     --font-heading: 'DM Serif Display', serif;
     --font-body: 'Inter', sans-serif;
@@ -113,6 +114,28 @@ h3,
     font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+.logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.nav-logo-img {
+    height: 38px;
+    width: auto;
+    display: block;
+}
+
+.footer-logo-img {
+    height: 52px;
+    width: auto;
+    display: block;
+    filter: brightness(0) invert(1);
 }
 
 .logo-icon {
@@ -216,15 +239,15 @@ h3,
 
 @keyframes pulse {
     0% {
-        box-shadow: 0 0 0 0 rgba(232, 99, 67, 0.7);
+        box-shadow: 0 0 0 0 rgba(125, 4, 51, 0.7);
     }
 
     70% {
-        box-shadow: 0 0 0 10px rgba(232, 99, 67, 0);
+        box-shadow: 0 0 0 10px rgba(125, 4, 51, 0);
     }
 
     100% {
-        box-shadow: 0 0 0 0 rgba(232, 99, 67, 0);
+        box-shadow: 0 0 0 0 rgba(125, 4, 51, 0);
     }
 }
 
@@ -430,7 +453,7 @@ h3,
 }
 
 .bento-featured h3 {
-    color: var(--accent-orange);
+    color: var(--accent-light);
     font-size: 2.5rem;
     margin-bottom: 1rem;
     font-family: var(--font-heading);
@@ -448,7 +471,7 @@ h3,
     transform: translate(-50%, -50%);
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(232, 99, 67, 0.15) 0%, rgba(0, 0, 0, 0) 70%);
+    background: radial-gradient(circle, rgba(125, 4, 51, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
     z-index: 1;
     pointer-events: none;
 }
@@ -460,8 +483,8 @@ h3,
 }
 
 .bento-tall h3 {
-    color: var(--border-dark);
-    border-bottom: 2px solid var(--border-dark);
+    color: #fff;
+    border-bottom: 2px solid rgba(255, 255, 255, 0.35);
     padding-bottom: 1rem;
 }
 
@@ -725,7 +748,7 @@ h3,
 }
 
 .admin-link {
-    color: var(--accent-orange);
+    color: var(--accent-light);
     text-decoration: none;
     font-weight: bold;
 }
