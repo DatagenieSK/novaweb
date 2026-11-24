@@ -942,17 +942,17 @@ h3,
 
 /* Success Toast Popup */
 .success-toast {
+    display: none;
     position: fixed;
     bottom: 24px;
     left: 50%;
-    transform: translate(-50%, 30px) scale(0.95);
+    transform: translate(-50%, 40px) scale(0.95);
     background-color: var(--border-dark);
     color: #fff;
     border: 2px solid var(--accent-orange);
     box-shadow: 5px 5px 0px 0px var(--accent-orange);
     padding: 0.85rem 1.2rem;
     font-family: var(--font-mono);
-    display: flex;
     flex-direction: column;
     gap: 0.5rem;
     z-index: 99999;
@@ -960,7 +960,7 @@ h3,
     width: max-content;
     border-radius: 4px;
 
-    /* Completely hidden by default on all devices (mobile & desktop) */
+    /* Completely hidden by default on all devices */
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -968,9 +968,11 @@ h3,
 }
 
 .success-toast.show {
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
+    display: flex !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    pointer-events: auto !important;
+    transform: translate(-50%, 0) scale(1) !important;
     animation: toastBounceIn 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
 }
 

@@ -149,6 +149,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                     // Show animated success toast
                     if (successToast) {
+                        successToast.style.display = 'flex';
                         successToast.classList.remove('show');
                         void successToast.offsetWidth; // Force CSS reflow to restart entrance & progress animations
                         successToast.classList.add('show');
@@ -168,6 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 setTimeout(() => {
                     if (successToast) {
                         successToast.classList.remove('show');
+                        setTimeout(() => {
+                            if (!successToast.classList.contains('show')) {
+                                successToast.style.display = 'none';
+                            }
+                        }, 400);
                     }
                 }, 4200);
             }
