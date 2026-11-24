@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https:; base-uri 'self';">
     <title>NovaOps | Admin Panel</title>
     <meta name="theme-color" content="#7D0433">
     <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -150,9 +153,12 @@
             <div
                 style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <h2 style="font-family: var(--font-heading); font-size: 2.5rem;">Client Submissions</h2>
-                <button id="clearDataBtn" class="btn-secondary"
-                    style="color: red; border: 2px solid red; padding: 0.5rem 1rem; background-color: #fff;">Clear All
-                    Data</button>
+                <div style="display: flex; gap: 0.8rem; flex-wrap: wrap;">
+                    <button id="logoutBtn" class="btn-secondary" style="border: 2px solid var(--border-dark); padding: 0.5rem 1rem; background-color: #fff;">Lock Session</button>
+                    <button id="clearDataBtn" class="btn-secondary"
+                        style="color: red; border: 2px solid red; padding: 0.5rem 1rem; background-color: #fff;">Clear All
+                        Data</button>
+                </div>
             </div>
 
             <div id="submissionsContainer" class="submissions-grid">
@@ -161,7 +167,11 @@
     </main>
 
     <script>
-        // Admin Panel Logic
+        // Salted cryptographic hash of the admin password (SHA-256)
+        // Eliminates plaintext passwords from client source code
+        const SALT = "novaops_secure_salt_2026_";
+        const TARGET_HASH = "ea3b337fa33325d408334c691d152da1998db16cefd3d7af2ff9675bdc5ba544";
+
         const loginBtn = document.getElementById('loginBtn');
         const passInput = document.getElementById('adminPassword');
         const errorMsg = document.getElementById('errorMsg');
@@ -169,30 +179,98 @@
         const dashboardView = document.getElementById('dashboardView');
         const container = document.getElementById('submissionsContainer');
         const clearBtn = document.getElementById('clearDataBtn');
+        const logoutBtn = document.getElementById('logoutBtn');
+
+        let failedAttempts = 0;
+        let lockoutTimer = null;
+
+        // Hash function using browser-native Web Crypto API
+        async function sha256(str) {
+            const buffer = new TextEncoder().encode(str);
+            const digest = await crypto.subtle.digest('SHA-256', buffer);
+            return Array.from(new Uint8Array(digest))
+                .map(b => b.toString(16).padStart(2, '0'))
+                .join('');
+        }
+
+        // Check if session is already authenticated
+        if (sessionStorage.getItem('nova_admin_auth') === 'true') {
+            loginView.style.display = 'none';
+            dashboardView.style.display = 'block';
+            loadSubmissions();
+        }
 
         // Allow pressing "Enter" to login
         passInput.addEventListener('keypress', function (e) {
             if (e.key === 'Enter') loginBtn.click();
         });
 
-        loginBtn.addEventListener('click', () => {
-            if (passInput.value === 'Admin@123') {
+        loginBtn.addEventListener('click', async () => {
+            if (lockoutTimer) return;
+
+            const enteredPass = passInput.value;
+            if (!enteredPass) return;
+
+            const computedHash = await sha256(SALT + enteredPass);
+
+            if (computedHash === TARGET_HASH) {
+                failedAttempts = 0;
+                sessionStorage.setItem('nova_admin_auth', 'true');
                 loginView.style.display = 'none';
                 dashboardView.style.display = 'block';
+                passInput.value = '';
+                errorMsg.style.display = 'none';
                 loadSubmissions();
             } else {
-                errorMsg.style.display = 'block';
+                failedAttempts++;
+                passInput.value = '';
+                if (failedAttempts >= 5) {
+                    let secondsLeft = 30;
+                    loginBtn.disabled = true;
+                    passInput.disabled = true;
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = `Too many attempts. Locked for ${secondsLeft}s.`;
+
+                    lockoutTimer = setInterval(() => {
+                        secondsLeft--;
+                        if (secondsLeft <= 0) {
+                            clearInterval(lockoutTimer);
+                            lockoutTimer = null;
+                            failedAttempts = 0;
+                            loginBtn.disabled = false;
+                            passInput.disabled = false;
+                            errorMsg.textContent = 'Incorrect Password.';
+                            errorMsg.style.display = 'none';
+                        } else {
+                            errorMsg.textContent = `Too many attempts. Locked for ${secondsLeft}s.`;
+                        }
+                    }, 1000);
+                } else {
+                    errorMsg.style.display = 'block';
+                    errorMsg.textContent = `Incorrect Password. (${5 - failedAttempts} attempts remaining)`;
+                }
             }
         });
 
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('nova_admin_auth');
+            dashboardView.style.display = 'none';
+            loginView.style.display = 'block';
+            container.innerHTML = '';
+        });
+
+        // XSS-Safe Submissions Rendering using strict DOM nodes (no innerHTML injection)
         function loadSubmissions() {
             const novaData = JSON.parse(localStorage.getItem('novaSubmissions')) || [];
             const legacyData = JSON.parse(localStorage.getItem('a4Submissions')) || [];
             const data = [...novaData, ...legacyData];
-            container.innerHTML = ''; // Clear current display
+            container.innerHTML = '';
 
             if (data.length === 0) {
-                container.innerHTML = '<p style="text-align: center; font-size: 1.2rem; margin-top: 2rem;">No project inquiries yet. Test the transmission form on the homepage!</p>';
+                const emptyMsg = document.createElement('p');
+                emptyMsg.style.cssText = 'text-align: center; font-size: 1.2rem; margin-top: 2rem;';
+                emptyMsg.textContent = 'No project inquiries yet. Test the transmission form on the homepage!';
+                container.appendChild(emptyMsg);
                 return;
             }
 
@@ -201,16 +279,43 @@
                 const sub = data[i];
                 const card = document.createElement('div');
                 card.className = 'sub-card';
-                card.innerHTML = `
-                    <div class="sub-header">
-                        <span>Submitted: ${sub.date}</span>
-                    </div>
-                    <h4>${sub.name}</h4>
-                    <p style="margin-bottom: 1rem;"><strong>Email:</strong> <a href="mailto:${sub.email}" class="text-orange" style="font-weight: 600;">${sub.email}</a></p>
-                    <div style="padding: 1rem; background: var(--bg-cream); border: 2px solid var(--border-dark); font-family: var(--font-body);">
-                        ${sub.message}
-                    </div>
-                `;
+
+                const subHeader = document.createElement('div');
+                subHeader.className = 'sub-header';
+                const dateSpan = document.createElement('span');
+                dateSpan.textContent = 'Submitted: ' + (sub.date || 'N/A');
+                subHeader.appendChild(dateSpan);
+                card.appendChild(subHeader);
+
+                const nameHeader = document.createElement('h4');
+                nameHeader.textContent = sub.name || 'Anonymous';
+                card.appendChild(nameHeader);
+
+                const emailP = document.createElement('p');
+                emailP.style.marginBottom = '1rem';
+                const emailStrong = document.createElement('strong');
+                emailStrong.textContent = 'Email: ';
+                emailP.appendChild(emailStrong);
+
+                const emailLink = document.createElement('a');
+                const safeEmail = String(sub.email || '').trim();
+                // Validate email to prevent javascript: pseudo-protocol injection
+                if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(safeEmail)) {
+                    emailLink.href = 'mailto:' + encodeURIComponent(safeEmail);
+                } else {
+                    emailLink.href = '#';
+                }
+                emailLink.className = 'text-orange';
+                emailLink.style.fontWeight = '600';
+                emailLink.textContent = safeEmail;
+                emailP.appendChild(emailLink);
+                card.appendChild(emailP);
+
+                const msgBox = document.createElement('div');
+                msgBox.style.cssText = 'padding: 1rem; background: var(--bg-cream); border: 2px solid var(--border-dark); font-family: var(--font-body); white-space: pre-wrap; word-break: break-word;';
+                msgBox.textContent = sub.message || '';
+                card.appendChild(msgBox);
+
                 container.appendChild(card);
             }
         }
@@ -219,7 +324,7 @@
             if (confirm('Are you absolutely sure you want to delete all form submissions? This cannot be undone.')) {
                 localStorage.removeItem('novaSubmissions');
                 localStorage.removeItem('a4Submissions');
-                loadSubmissions(); // Reload the empty state
+                loadSubmissions();
             }
         });
     </script>

@@ -72,80 +72,106 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitBtn = document.getElementById('submitBtn');
 
     if (contactForm) {
-            contactForm.addEventListener('submit', async (e) => {
-                e.preventDefault(); // Prevents full page reload
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevents full page reload
 
-                const name = document.getElementById('userName').value.trim();
-                const email = document.getElementById('userEmail').value.trim();
-                const message = document.getElementById('userMessage').value.trim();
+            // Honeypot check: spambots automatically fill hidden inputs
+            const botcheck = document.getElementById('botcheck');
+            if (botcheck && botcheck.checked) {
+                console.warn('Bot submission blocked.');
+                contactForm.reset();
+                return;
+            }
 
-                if (!name || !email || !message) return;
+            // Rate-limiting throttle (10-second cooldown between transmissions)
+            const now = Date.now();
+            const lastSent = Number(sessionStorage.getItem('nova_last_submission') || 0);
+            if (now - lastSent < 10000) {
+                const waitSec = Math.ceil((10000 - (now - lastSent)) / 1000);
+                alert(`Please wait ${waitSec} second(s) before sending another transmission.`);
+                return;
+            }
 
-                // UI feedback while sending
-                if (submitBtn) {
-                    submitBtn.disabled = true;
-                    submitBtn.textContent = 'Transmitting Payload...';
-                }
+            const name = document.getElementById('userName').value.trim().slice(0, 100);
+            const email = document.getElementById('userEmail').value.trim().slice(0, 120);
+            const message = document.getElementById('userMessage').value.trim().slice(0, 3000);
 
-                const formData = {
+            // Basic email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid work email address.');
+                return;
+            }
+
+            if (!name || !email || !message) return;
+
+            // UI feedback while sending
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Transmitting Payload...';
+            }
+
+            const formData = {
                 access_key: '914edbca-5f5e-4ed4-8574-67fca47922b2',
-                    subject: 'New Project Inquiry | NovaOps',
-                    from_name: 'NovaOps Website',
-                    name: name,
-                    email: email,
-                    message: message
-                };
+                subject: 'New Project Inquiry | NovaOps',
+                from_name: 'NovaOps Website',
+                name: name,
+                email: email,
+                message: message
+            };
 
-                try {
-                    // Send email notification via Web3Forms
-                    const response = await fetch('https://api.web3forms.com/submit', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Accept': 'application/json'
-                        },
-                        body: JSON.stringify(formData)
-                    });
-
-                    const result = await response.json();
-
-                    if (response.status === 200 && result.success) {
-                        // Save to localStorage for the Admin Panel
-                        const localEntry = {
-                            name: name,
-                            email: email,
-                            message: message,
-                            date: new Date().toLocaleString()
-                        };
-                        let submissions = JSON.parse(localStorage.getItem('novaSubmissions')) || [];
-                        submissions.push(localEntry);
-                        localStorage.setItem('novaSubmissions', JSON.stringify(submissions));
-
-                                // Show success toast
-                                if (successToast) {
-                                    successToast.innerHTML = '<span style="font-size: 1.5rem;">🚀</span> Project Payload Delivered! Email dispatched to sk@novaops.in.';
-                                    successToast.classList.add('show');
-                                }
-                                contactForm.reset();
-                            } else {
-                                alert('Submission failed: ' + (result.message || 'Please try again.'));
-                            }
-                    } catch (err) {
-                        console.error('Web3Forms transmission error:', err);
-                        alert('Connection error. Please try again or reach out directly to sk@novaops.in.');
-                    } finally {
-                        if (submitBtn) {
-                            submitBtn.disabled = false;
-                            submitBtn.textContent = 'Execute Transmission';
-                        }
-                        setTimeout(() => {
-                            if (successToast) {
-                                successToast.classList.remove('show');
-                            }
-                        }, 4000);
-                    }
+            try {
+                // Send email notification via Web3Forms
+                const response = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
                 });
-        }
+
+                const result = await response.json();
+
+                if (response.status === 200 && result.success) {
+                    sessionStorage.setItem('nova_last_submission', String(Date.now()));
+
+                    // Save sanitized copy to localStorage for the Admin Panel
+                    const localEntry = {
+                        name: name,
+                        email: email,
+                        message: message,
+                        date: new Date().toLocaleString()
+                    };
+                    let submissions = JSON.parse(localStorage.getItem('novaSubmissions')) || [];
+                    submissions.push(localEntry);
+                    localStorage.setItem('novaSubmissions', JSON.stringify(submissions));
+
+                    // Show success toast
+                    if (successToast) {
+                        successToast.innerHTML = '<span style="font-size: 1.5rem;">🚀</span> Project Payload Delivered! Email dispatched to sk@novaops.in.';
+                        successToast.classList.add('show');
+                    }
+                    contactForm.reset();
+                } else {
+                    alert('Submission failed: ' + (result.message || 'Please try again.'));
+                }
+            } catch (err) {
+                console.error('Web3Forms transmission error:', err);
+                alert('Connection error. Please try again or reach out directly to sk@novaops.in.');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Execute Transmission';
+                }
+                setTimeout(() => {
+                    if (successToast) {
+                        successToast.classList.remove('show');
+                    }
+                }, 4000);
+            }
+        });
+    }
 
     // 5. Hero Terminal Typing Animation
     const heroTerminal = document.querySelector('.hero-terminal .terminal-body');
