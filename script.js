@@ -147,9 +147,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     submissions.push(localEntry);
                     localStorage.setItem('novaSubmissions', JSON.stringify(submissions));
 
-                    // Show success toast
+                    // Show animated success toast
                     if (successToast) {
-                        successToast.innerHTML = '<span style="font-size: 1.5rem;">🚀</span> Project Payload Delivered! Email dispatched to sk@novaops.in.';
+                        successToast.classList.remove('show');
+                        void successToast.offsetWidth; // Force CSS reflow to restart entrance & progress animations
                         successToast.classList.add('show');
                     }
                     contactForm.reset();
@@ -168,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (successToast) {
                         successToast.classList.remove('show');
                     }
-                }, 4000);
+                }, 4200);
             }
         });
     }

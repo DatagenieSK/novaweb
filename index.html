@@ -486,9 +486,15 @@
         </div>
     </section>
 
-    <div id="successToast" class="success-toast">
-        <span style="font-size: 1.5rem;">🚀</span> Project Payload Delivered! Our engineering team will be in touch
-        shortly.
+    <div id="successToast" class="success-toast" role="status" aria-live="polite">
+        <div class="toast-content">
+            <span class="toast-icon">🚀</span>
+            <div class="toast-text">
+                <span class="toast-title">Payload Delivered!</span>
+                <span class="toast-desc">Transmission dispatched to sk@novaops.in.</span>
+            </div>
+        </div>
+        <div class="toast-progress"></div>
     </div>
 
     <footer class="site-footer relative-z">
