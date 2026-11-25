@@ -13,13 +13,42 @@ window.addEventListener('load', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    // 1. Custom Cursor tracking (Desktop)
+    // 1. Custom Cursor tracking & click feedback (Desktop)
     const cursor = document.querySelector('.custom-cursor');
     if (cursor) {
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
+
+        document.addEventListener('mousedown', () => {
+            cursor.classList.add('clicking');
+        });
+
+        document.addEventListener('mouseup', () => {
+            cursor.classList.remove('clicking');
+        });
+    }
+
+    // 1b. Navbar elevation on scroll (60fps passive listener with requestAnimationFrame)
+    const navbar = document.querySelector('.navbar');
+    if (navbar) {
+        let isScrolled = false;
+        let ticking = false;
+
+        window.addEventListener('scroll', () => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const scrolled = window.scrollY > 30;
+                    if (scrolled !== isScrolled) {
+                        isScrolled = scrolled;
+                        navbar.classList.toggle('navbar-scrolled', isScrolled);
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        }, { passive: true });
     }
 
     // 2. Smooth scrolling for navigation links
@@ -45,11 +74,21 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // 3. Intersection Observer for scroll animations
+    // 3. Intersection Observer for scroll animations with dynamic staggered delays
+    const gridContainers = document.querySelectorAll('.services-flagship-grid, .services-engines-grid, .project-grid, .architecture-stack');
+    gridContainers.forEach(container => {
+        const items = container.querySelectorAll('.animate-on-scroll');
+        items.forEach((item, index) => {
+            if (!item.style.transitionDelay) {
+                item.style.transitionDelay = `${(index % 4) * 0.08}s`;
+            }
+        });
+    });
+
     const observerOptions = {
         root: null,
-        rootMargin: '0px',
-        threshold: 0.1 // Triggers when 10% of the element is visible
+        rootMargin: '0px 0px -40px 0px',
+        threshold: 0.08 // Triggers when element enters viewport
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
